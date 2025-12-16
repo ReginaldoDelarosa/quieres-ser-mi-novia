@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Historia 🎀</title>
+    <style>
+        :root {
+            --rosa-fuerte: #ff4d6d;
+            --rosa-pastel: #ffdae9;
+            --rosa-borde: #ffb6c1;
+            --blanco-polaroid: #ffffff;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            background-color: var(--rosa-pastel);
+            font-family: 'Comic Sans MS', 'Arial', cursive, sans-serif;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        /* Carrusel */
+        .slider-container {
+            display: flex;
+            width: 300%;
+            height: 100vh;
+            transition: transform 0.6s cubic-bezier(0.45, 0, 0.55, 1);
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Layout de Álbum (Video + Fotos) */
+        .scrapbook-layout {
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .video-frame {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: white;
+            border: 6px solid white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* Fotos Estilo Polaroid */
+        .photo {
+            position: absolute;
+            width: 100px;
+            height: 120px;
+            background: var(--blanco-polaroid);
+            padding: 8px 8px 20px 8px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            z-index: 3;
+            object-fit: cover;
+        }
+
+        .p1 { top: -40px; left: -20px; transform: rotate(-15deg); }
+        .p2 { bottom: -50px; right: -10px; transform: rotate(10deg); }
+        .p3 { top: -30px; right: -25px; transform: rotate(12deg); }
+        .p4 { bottom: -45px; left: -15px; transform: rotate(-8deg); }
+
+        /* Navegación */
+        .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            color: var(--rosa-fuerte);
+            border: 3px solid var(--rosa-borde);
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #nextBtn { right: 15px; }
+        #prevBtn { left: 15px; display: none; }
+
+        /* Tarjeta Final */
+        .card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 30px;
+            border: 5px solid var(--rosa-borde);
+            text-align: center;
+            max-width: 320px;
+            z-index: 10;
+        }
+
+        /* Botones y Modales */
+        .overlay {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(255, 182, 193, 0.8);
+            backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 200;
+        }
+        .modal {
+            background: white; padding: 25px; border-radius: 25px;
+            border: 4px solid var(--rosa-fuerte); width: 80%; max-width: 300px; text-align: center;
+        }
+        button {
+            padding: 12px; border-radius: 50px; border: none; font-weight: bold;
+            width: 100%; margin-top: 10px; cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:active { transform: scale(0.95); }
+        
+        /* AHORA AMBOS BOTONES SON ROJOS FUERTES POR DEFECTO */
+        .yes-btn, .no-btn { 
+            background: var(--rosa-fuerte); 
+            color: white; 
+            box-shadow: 0 4px #c9184a; 
+        }
+        
+        /* SOLO EL BOTÓN DESHABILITADO SE VERÁ COMO EN TU IMAGEN */
+        .disabled-btn { 
+            background: var(--rosa-borde) !important; 
+            color: white !important; 
+            cursor: not-allowed !important; 
+            box-shadow: 0 4px #ff8fa3 !important;
+            transform: none !important;
+            opacity: 0.8;
+        }
+
+        .heart { position: absolute; animation: fly 6s infinite linear; opacity: 0.5; pointer-events: none; }
+        @keyframes fly { 0% { transform: translateY(100vh) scale(1); } 100% { transform: translateY(-10vh) scale(1.5); } }
+    </style>
+</head>
+<body>
+
+    <button id="prevBtn" class="nav-btn" onclick="moveSlide(-1)">❮</button>
+    <button id="nextBtn" class="nav-btn" onclick="moveSlide(1)">❯</button>
+
+    <div class="slider-container" id="slider">
+        
+        <div class="slide">
+            <h2 style="color: var(--rosa-fuerte); margin-bottom: 50px;">Unas palabras... 🎀</h2>
+            <div class="scrapbook-layout">
+                <img src="./1.jpeg" class="photo p1" alt="Nosotros 1">
+                <div class="video-frame">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/m8KoKZaupJA?si=vhodli2OiS1JT45l" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <img src="./2.jpeg" class="photo p2" alt="Nosotros 2">
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2 style="color: var(--rosa-fuerte); margin-bottom: 50px;">Una parte de mi ahora es tuya ✨</h2>
+            <div class="scrapbook-layout">
+                <img src="./3.jpeg" class="photo p3" alt="Nosotros 3">
+                <div class="video-frame">
+                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/m8KoKZaupJA?si=vhodli2OiS1JT45l" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                </div>
+                <img src="./4.jpeg" class="photo p4" alt="Nosotros 4">
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="card">
+                <p1 style="color: var(--rosa-fuerte); font-size: 1.5rem;">Tú: </p1>
+                <div><img src="./hello-kitty.svg" style="width: 60px; margin-bottom: 15px;"></div>
+                
+                <h1 style="color: var(--rosa-fuerte); font-size: 1.5rem;">Por eso...<br>¿Quieres ser mi novia? 🎀</h1>
+                <button class="yes-btn" onclick="celebrate()">¡SÍ, ACEPTO!</button>
+                <button class="no-btn" onclick="openModal('modal1')">No</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal1" class="overlay"><div class="modal">
+        <h2>¿Estás segura? 🥺</h2>
+        <button class="yes-btn" onclick="celebrate()">No, en realidad te amo y quiero estar contigo</button>
+        <button class="no-btn" onclick="openModal('modal2')">Si 😔</button>
+    </div></div>
+
+    <div id="modal2" class="overlay"><div class="modal">
+        <h2>¿Segura segura....? 🌸</h2>
+        <button class="yes-btn" onclick="celebrate()">¡Me quiero casar contigo!</button>
+        <button class="disabled-btn" disabled>
+            Sí <br> <small>(Estamos teniendo dificultades técnicas con este botón 🤫)</small>
+        </button>
+    </div></div>
+
+    <div id="modalCelebrate" class="overlay"><div class="modal">
+        <h2>¡SABÍA QUE NO PODRÍAS RESISTIRTE! ❤️</h2>
+        <p>Eres el amor de mi vida ✨</p>
+        <p style="font-size: 0.8rem;">(Ahora tu culo es mio para siempre 😈😈😈) </p>
+        <button class="yes-btn" onclick="location.reload()">¡Te amo! 💖</button>
+    </div></div>
+
+    <script>
+        let currentSlide = 0;
+        const slider = document.getElementById('slider');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function moveSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide > 2) currentSlide = 2;
+
+            slider.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            prevBtn.style.display = currentSlide === 0 ? 'none' : 'flex';
+            nextBtn.style.display = currentSlide === 2 ? 'none' : 'flex';
+        }
+
+        let touchStartX = 0;
+        document.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+        document.addEventListener('touchend', e => {
+            let touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) moveSlide(1);
+            if (touchEndX - touchStartX > 50) moveSlide(-1);
+        });
+
+        function openModal(id) {
+            document.querySelectorAll('.overlay').forEach(m => m.style.display = 'none');
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function celebrate() {
+            document.querySelectorAll('.overlay').forEach(m => m.style.display = 'none');
+            document.getElementById('modalCelebrate').style.display = 'flex';
+        }
+
+        setInterval(() => {
+            const h = document.createElement('div');
+            h.className = 'heart';
+            h.innerHTML = ['🌸', '🎀', '💖', '✨'][Math.floor(Math.random()*4)];
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 6000);
+        }, 400);
+    </script>
+</body>
+</html>
